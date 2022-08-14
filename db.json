@@ -1,0 +1,22 @@
+{
+  "contatos": [
+    {
+      "id": 1,
+      "nome": "Matias Almagro",
+      "email": "matigro@gmail.com",
+      "telefone": "1111-1111"
+    },
+    {
+      "id": 2,
+      "nome": "Izaskun Redondo",
+      "email": "Izare@gmail.com",
+      "telefone": "2222-2222"
+    },
+    {
+      "id": 3,
+      "nome": "Ariana Novo",
+      "email": "ari23@gmail.com",
+      "telefone": "3333-3333"
+    }
+  ]
+}
