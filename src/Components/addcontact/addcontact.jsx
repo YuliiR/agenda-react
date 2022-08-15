@@ -18,7 +18,7 @@ function CustomToggle({ children, eventKey }) {
   );
 }
 
-function Addnewcontact() {
+function Addnewcontact({fetchContact}) {
 
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
@@ -39,8 +39,11 @@ function Addnewcontact() {
           headers: {"Content-type":"application/json; charset=UTF-8"}
         });
 
-    if(response.ok)
-    console.log("ok", response.ok)
+        if(response.ok){
+            console.log("ok", response.ok);
+        fetchContact();
+        }
+
     }
 
   return (

@@ -1,21 +1,11 @@
 import Table from 'react-bootstrap/Table';
 import { Button } from 'react-bootstrap';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Modal from 'react-bootstrap/Modal';
 
-function Contactlist() {
-  const [contactList, setContactList] = useState([]);
-
-    function fetchContact() {
-
-      fetch("http://localhost:4000/contatos/")
-      .then((response)=> response.json())
-      .then(data => setContactList(data))
-      .catch(e => console.error('FETCH ERROR: ', e));
-    } 
+function Contactlist({contactList, fetchContact}) {
     useEffect(() => {
       fetchContact();
-
     }, []);
 
 const handleDelete = async (contatoId) => {
@@ -23,7 +13,8 @@ const handleDelete = async (contatoId) => {
     method: 'DELETE',
   })
   if(response.ok){
-    handleClose()
+    handleClose();
+    fetchContact();
   }
 }
 
@@ -31,7 +22,7 @@ const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
 
-const handleUpdate = async (contatoId) => {
+ const handleUpdate = async (contatoId) => {
   const response = await fetch("http://localhost:4000/contatos/" + contatoId, {
     method: 'PATCH',
     body: JSON.stringify({
@@ -44,7 +35,7 @@ const handleUpdate = async (contatoId) => {
   if(response.ok) {
     console.log('feito!')
   }
-}
+ }
 
   return (
       <Table striped bordered hover variant="dark">
