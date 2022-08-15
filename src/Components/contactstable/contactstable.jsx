@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import React, { useEffect, useState, useContext } from 'react';
 import Modal from 'react-bootstrap/Modal';
 
-function Contactlist({contactList, fetchContact}) {
+function Contactlist({contactList, fetchContact, onUpdate}) {
     useEffect(() => {
       fetchContact();
     }, []);
@@ -22,20 +22,7 @@ const [show, setShow] = useState(false);
 const handleClose = () => setShow(false);
 const handleShow = () => setShow(true);
 
- const handleUpdate = async (contatoId) => {
-  const response = await fetch("http://localhost:4000/contatos/" + contatoId, {
-    method: 'PATCH',
-    body: JSON.stringify({
-      nome: nome,
-      telefone: telefone,
-      email: email
-    }),
-    headers: {"Content-type":"application/json; charset=UTF-8"}
-  });
-  if(response.ok) {
-    console.log('feito!')
-  }
- }
+ 
 
   return (
       <Table striped bordered hover variant="dark">
@@ -55,7 +42,7 @@ const handleShow = () => setShow(true);
                 <td>{contato.email}</td>
                 <td>{contato.telefone}</td>
                 <td>
-                  <Button variant="dark" onClick={() => handleUpdate(contato.id)}>Editar</Button>
+                  <Button variant="dark" onClick={() => onUpdate(contato.id)}>Editar</Button>
                   <Button variant="danger" onClick={handleShow}>Excluir</Button>
                 </td>
                 <Modal

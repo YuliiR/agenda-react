@@ -18,11 +18,7 @@ function CustomToggle({ children, eventKey }) {
   );
 }
 
-function Addnewcontact({fetchContact}) {
-
-    const [name, setName] = useState('');
-    const [number, setNumber] = useState('');
-    const [email, setEmail] = useState('');
+function Addnewcontact({name, number, email, setName, setNumber, setEmail, fetchContact}) {
 
     const handleSubmit = async(event) => {
         event.preventDefault();
@@ -41,7 +37,7 @@ function Addnewcontact({fetchContact}) {
 
         if(response.ok){
             console.log("ok", response.ok);
-        fetchContact();
+            fetchContact();
         }
 
     }
