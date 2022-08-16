@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { FaSearch } from 'react-icons/fa';
 
 function NavbarS() {
   return (
@@ -24,7 +25,7 @@ function NavbarS() {
               className="me-2"
               aria-label="Search"
             />
-            <Button variant="outline-dark">Q</Button>
+            <Button variant="outline-dark"><FaSearch /></Button>
           </Form>
         </Navbar.Collapse>
       </Container>

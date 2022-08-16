@@ -3,6 +3,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import Card from 'react-bootstrap/Card';
 import { Button } from 'react-bootstrap';
+import { IoPersonAddSharp } from 'react-icons/io5';
 
 function CustomToggle({ children, eventKey }) {
   const decoratedOnClick = useAccordionButton(eventKey);
@@ -18,35 +19,42 @@ function CustomToggle({ children, eventKey }) {
   );
 }
 
-function Addnewcontact({name, number, email, setName, setNumber, setEmail, fetchContact}) {
+function Addnewcontact({name, number, email, setName, setNumber, setEmail, fetchContact, handleUpdate, isEditar, setIsEditar}) {
 
     const handleSubmit = async(event) => {
         event.preventDefault();
 
-        const data = {
+        if(isEditar){
+          handleUpdate();
+          setIsEditar(false);
+        }else {
+          const data = {
             "nome": name,
             "telefone": number,
             "email": email 
+          }
+
+          const response = await fetch("http://localhost:4000/contatos/", {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {"Content-type":"application/json; charset=UTF-8"}
+          });
+
+          if(response.ok){
+              console.log("ok", response.ok);
+              fetchContact();
+          }
         }
-
-        const response = await fetch("http://localhost:4000/contatos/", {
-          method: 'POST',
-          body: JSON.stringify(data),
-          headers: {"Content-type":"application/json; charset=UTF-8"}
-        });
-
-        if(response.ok){
-            console.log("ok", response.ok);
-            fetchContact();
-        }
-
+        setName('');
+        setNumber('');
+        setEmail('')
     }
 
   return (
     <Accordion defaultActiveKey="0">
       <Card>
         <Card.Header>
-          <CustomToggle eventKey="1">+</CustomToggle>
+          <CustomToggle eventKey="1"><IoPersonAddSharp /></CustomToggle>
         </Card.Header>
         <Accordion.Collapse eventKey="1">
           <Card.Body>
@@ -71,7 +79,7 @@ function Addnewcontact({name, number, email, setName, setNumber, setEmail, fetch
                 onChange={(e)=> setEmail(e.target.value)} 
                 placeholder='Email'
             />
-            <Button variant='dark' type='submit'>Adicionar</Button>
+            <Button variant='dark' type='submit' >{!isEditar ? 'Adicionar' : 'Editar'}</Button>
           </form>
         </section> 
     </Card.Body>

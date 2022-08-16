@@ -10,19 +10,24 @@ function App() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const [email, setEmail] = useState('');
+  const [isEditar, setIsEditar] = useState(false);
+  const [currentContact, setCurrentContact] = useState();
+
 
   const onUpdate = (contatoId) => {
     fetch("http://localhost:4000/contatos/" + contatoId)
     .then((response)=> response.json())
     .then(data => {
-      setName(data.name);
-      setNumber(data.number);
-      setEmail(data.email)
+      setName(data.nome);
+      setNumber(data.telefone);
+      setEmail(data.email);
+      setIsEditar(true);
+      setCurrentContact(contatoId);
     })
   }
 
-  const handleUpdate = async (contatoId) => {
-    const response = await fetch("http://localhost:4000/contatos/" + contatoId, {
+  const handleUpdate = async () => {
+    const response = await fetch("http://localhost:4000/contatos/" + currentContact, {
       method: 'PATCH',
       body: JSON.stringify({
         nome: name,
@@ -32,7 +37,7 @@ function App() {
       headers: {"Content-type":"application/json; charset=UTF-8"}
     });
     if(response.ok) {
-      console.log('feito!')
+      fetchContact();
     }
    }
 
@@ -44,8 +49,6 @@ function App() {
     .catch(e => console.error('FETCH ERROR: ', e));
   } 
 
-
-
   return (
     <>
     <NavbarS />
@@ -56,7 +59,10 @@ function App() {
      fetchContact={fetchContact} 
      name={name} 
      number={number} 
-     email={email}/>
+     email={email}
+     handleUpdate={handleUpdate}
+     isEditar={isEditar}
+     setIsEditar={setIsEditar}/>
     </>
   )
 }
